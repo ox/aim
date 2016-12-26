@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
 import Text from './input/text';
+import Button from './input/button';
 
 class SignOn extends Component {
   render() {
@@ -32,9 +33,9 @@ class SignOn extends Component {
         </div>
         <div className="clear"></div>
 
-        <button className={css(styles.button, styles.helpButton)}/>
-        <button className={css(styles.button, styles.setupButton)}/>
-        <button className={css(styles.button, styles.signOnButton)}/>
+        <Button type="flat" styles={[styles.button, styles.helpButton]}/>
+        <Button type="flat" styles={[styles.button, styles.setupButton]}/>
+        <Button type="flat" styles={[styles.button, styles.signOnButton]}/>
         <div className="clear"></div>
 
         <div className={css(styles.footer)}>
@@ -76,24 +77,12 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   button: {
-    float: 'right',
     width: 40,
     height: 40,
-    backgroundColor: 'rgba(0,0,0,0)',
-    border: '#ccc',
-    ':active': {
-      borderTop: '1px solid gray',
-      borderLeft: '1px solid gray',
-      borderRight: '1px solid #dfdfdf',
-      borderBottom: '1px solid #dfdfdf',
-      boxShadow: '1px 0 #fff, 0 1px #fff, 1px 1px #fff',
-      outline: '0px solid transparent',
-    },
-    ':focus': {
-      outline: '0px solid transparent',
-    },
+    padding: 5,
   },
   signOnButton: {
+    float: 'right',
     marginRight: 10,
     backgroundImage: 'url(public/img/sign-on.png)',
   },

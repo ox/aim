@@ -5,11 +5,11 @@ const Text = ({type = "text", name, styles = []}) => {
   return (
     <input type={type}
       name={name}
-      className={css(styles.input, ...styles)} />
+      className={css(style.input, ...styles)} />
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   input: {
     padding: 2,
     borderTop: '1px solid gray',

@@ -1,28 +1,51 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
-const Button = ({type}) => {
-  <button className={css(styles.button, styles.helpButton)}/>
+const Button = ({type, styles = []}) => {
+  let finalStyles = styles;
+
+  switch (type) {
+    case 'flat':
+      finalStyles.push(style.flat);
+      break;
+  }
+
+  return <button className={css(style.button, ...finalStyles)}/>;
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   button: {
     float: 'right',
-    width: 40,
-    height: 40,
     backgroundColor: 'rgba(0,0,0,0)',
-    border: '#ccc',
+
+    borderRadius: '0',
+    borderTop: '1px solid #fff',
+    borderLeft: '1px solid #fff',
+    borderRight: '1px solid gray',
+    borderBottom: '1px solid gray',
+    boxShadow: 'inset 1px 1px #dfdfdf, 1px 0 #000, 0 1px #000, 1px 1px #000',
+
+    backgroundColor: 'silver',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    outline: '0px solid transparent',
+
     ':active': {
-      borderTop: '1px solid gray',
-      borderLeft: '1px solid gray',
+      borderTop: '1px solid #000',
+      borderLeft: '1px solid #000',
       borderRight: '1px solid #dfdfdf',
       borderBottom: '1px solid #dfdfdf',
-      boxShadow: '1px 0 #fff, 0 1px #fff, 1px 1px #fff',
+      boxShadow: 'inset 1px 1px grey, 1px 0 #fff, 0 1px #fff, 1px 1px #fff',
       outline: '0px solid transparent',
     },
+
     ':focus': {
       outline: '0px solid transparent',
     },
+  },
+  flat: {
+    border: 0,
+    boxShadow: 0,
   },
 });
 
