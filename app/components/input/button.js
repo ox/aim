@@ -15,9 +15,6 @@ const Button = ({type, styles = []}) => {
 
 const style = StyleSheet.create({
   button: {
-    float: 'right',
-    backgroundColor: 'rgba(0,0,0,0)',
-
     borderRadius: '0',
     borderTop: '1px solid #fff',
     borderLeft: '1px solid #fff',
@@ -25,7 +22,7 @@ const style = StyleSheet.create({
     borderBottom: '1px solid gray',
     boxShadow: 'inset 1px 1px #dfdfdf, 1px 0 #000, 0 1px #000, 1px 1px #000',
 
-    backgroundColor: 'silver',
+    backgroundColor: '#DCD9D3',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     outline: '0px solid transparent',

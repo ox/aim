@@ -9,29 +9,35 @@ class SignOn extends Component {
     return (
       <div className={css(styles.container)}>
         <div className={css(styles.logoContainer)}>
-          <img src="public/img/aim-logo.jpg" className={css(styles.logo)} />
+          <img src="public/img/aim-logo.png" className={css(styles.logo)} />
         </div>
 
         <hr/>
-        <br />
 
         <div className={css(styles.inputContainer)}>
-          <label className={css(styles.label)} htmlFor="screen-name">Screen Name</label>
+          <img src="public/img/screen-name.png" className={css(styles.screenName)}/>
+          <br/>
           <Text name="screen-name" styles={[styles.textInput]} />
+          <br/>
+          <a href="https://slack.com" target="_blank">Get a Screen Name</a>
         </div>
 
         <div className={css(styles.inputContainer)}>
-          <label className={css(styles.label)} htmlFor="password">Password</label>
+          <label htmlFor="password" className={css(styles.passwordLabel)}>Password</label>
+          <br/>
           <Text type="password" name="password" styles={[styles.textInput]} />
+          <br/>
+          <a href="#">Forgot Password?</a>
         </div>
 
-        <input type="checkbox" name="" className={css(styles.checkbox)}/>
-        <label htmlFor="">Save password</label>
-        <div className={css(styles.autoLogin)}>
+        <div className={css(styles.inputContainer)}>
           <input type="checkbox" name="" className={css(styles.checkbox)}/>
-          <label htmlFor="">Auto-login</label>
+          <label htmlFor="">Save password</label>
+          <div className={css(styles.autoLogin)}>
+            <input type="checkbox" name="" className={css(styles.checkbox)}/>
+            <label htmlFor="">Auto-login</label>
+          </div>
         </div>
-        <div className="clear"></div>
 
         <Button type="flat" styles={[styles.button, styles.helpButton]}/>
         <Button type="flat" styles={[styles.button, styles.setupButton]}/>
@@ -40,7 +46,6 @@ class SignOn extends Component {
 
         <div className={css(styles.footer)}>
           <p className={css(styles.version)}>Version: 4.2.0124</p>
-          <a href="#">Forgot Password?</a>
         </div>
       </div>
     );
@@ -53,6 +58,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   logoContainer: {
+    marginTop: -3,
     marginBottom: 4,
     paddingLeft: 4,
     paddingRight: 4,
@@ -60,14 +66,24 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
   },
-  label: {},
+  screenName: {
+    width: 103,
+    paddingTop: 3,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
   inputContainer: {
     marginBottom: 8,
-    lineHeight: '20px',
+    paddingLeft: 10,
     clear: 'both',
   },
   textInput: {
-    float: 'right',
+    width: '100%',
+    marginBottom: 2,
+  },
+  passwordLabel: {
+    lineHeight: '16px',
+    verticalAlign: 'top',
   },
   checkbox: {
     marginRight: 5,
