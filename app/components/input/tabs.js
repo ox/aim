@@ -4,12 +4,24 @@ import {css, StyleSheet} from 'aphrodite';
 export class Tabs extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visibleTabIdx:0,
+    };
+
+    this.setVisibleTabIdx = this.setVisibleTabIdx.bind(this);
     this.render = this.render.bind(this);
   }
 
+  setVisibleTabIdx(idx) {
+    this.setState({visibleTabIdx: idx});
+  }
+
   render() {
-    const tabs = React.Children.map(this.props.children, (x) => {
-      return React.cloneElement(x, {visible: true});
+    const tabs = React.Children.map(this.props.children, (x, i) => {
+      return React.cloneElement(x, {
+        visible: this.state.visibleTabIdx === i,
+        onClick: this.setVisibleTabIdx.bind(null, i),
+      });
     });
 
     return <div>{tabs}</div>;
@@ -43,6 +55,8 @@ const styles = StyleSheet.create({
     borderRight: '1px solid #929292',
     borderTop: '1px solid #fff',
     borderBottom: '1px solid #DCD9D3',
+    cursor: 'pointer',
+    '-webkit-user-select': 'none',
   },
   tabFrame: {
     padding: 3,

@@ -25,8 +25,8 @@ class BuddyList extends Component {
 
   render() {
     return <div>
-      <img src="public/img/aim-header.png" className={css(styles.header)}/>
-      <div className={css(styles.headerLogoContainer)}></div>
+      <div className={css(styles.headerBanner)}></div>
+      <div className={css(styles.headerLogo)}></div>
 
       <Tabs>
         <Tab title="Online">
@@ -41,10 +41,14 @@ class BuddyList extends Component {
 }
 
 const styles = StyleSheet.create({
-  header: {
+  headerBanner: {
     width: '100%',
+    height: 20,
+    backgroundImage: 'url(public/img/aim-header.png)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
   },
-  headerLogoContainer: {
+  headerLogo: {
     width: 120,
     height: 60,
     marginLeft: 'auto',

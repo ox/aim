@@ -11,7 +11,8 @@ body {
 }
 
 .window {
-
+  min-width: 144px;
+  min-height: 320px;
 }
 
 .clear {
