@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
+import Text from './input/text';
+
 class SignOn extends Component {
   render() {
     return (
@@ -14,12 +16,12 @@ class SignOn extends Component {
 
         <div className={css(styles.inputContainer)}>
           <label className={css(styles.label)} htmlFor="screen-name">Screen Name</label>
-          <input type="text" name="screen-name" className={css(styles.textInput)} />
+          <Text name="screen-name" styles={[styles.textInput]} />
         </div>
 
         <div className={css(styles.inputContainer)}>
           <label className={css(styles.label)} htmlFor="password">Password</label>
-          <input type="password" name="password" className={css(styles.textInput)} />
+          <Text type="password" name="password" styles={[styles.textInput]} />
         </div>
 
         <input type="checkbox" name="" className={css(styles.checkbox)}/>
@@ -61,17 +63,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 8,
     lineHeight: '20px',
+    clear: 'both',
   },
   textInput: {
     float: 'right',
-    clear: 'both',
-    padding: 2,
-    borderTop: '1px solid gray',
-    borderLeft: '1px solid gray',
-    borderRight: '1px solid #dfdfdf',
-    borderBottom: '1px solid #dfdfdf',
-    boxShadow: '1px 0 #fff, 0 1px #fff, 1px 1px #fff',
-    marginRight: '1px',
   },
   checkbox: {
     marginRight: 5,
@@ -86,6 +81,17 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'rgba(0,0,0,0)',
     border: '#ccc',
+    ':active': {
+      borderTop: '1px solid gray',
+      borderLeft: '1px solid gray',
+      borderRight: '1px solid #dfdfdf',
+      borderBottom: '1px solid #dfdfdf',
+      boxShadow: '1px 0 #fff, 0 1px #fff, 1px 1px #fff',
+      outline: '0px solid transparent',
+    },
+    ':focus': {
+      outline: '0px solid transparent',
+    },
   },
   signOnButton: {
     marginRight: 10,
