@@ -7,7 +7,7 @@ import SignOn from './components/sign-on';
 class App extends Component {
   render() {
     return <div>
-      <SignOn />
+      <BuddyList />
     </div>;
   }
 }
