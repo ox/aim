@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     borderRight: '1px solid #929292',
     borderTop: '1px solid #fff',
     borderBottom: '1px solid #DCD9D3',
+    borderTopLeftRadius: 3,
     cursor: 'pointer',
     '-webkit-user-select': 'none',
   },
