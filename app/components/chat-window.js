@@ -4,6 +4,7 @@ import {css, StyleSheet} from 'aphrodite';
 import MenuBar from './menu-bar';
 import {DropDown, DropDownItem} from './input/dropdown';
 import Well from './well';
+import Textarea from './input/textarea';
 
 class ChatWindow extends Component {
   constructor(props) {
@@ -20,15 +21,16 @@ class ChatWindow extends Component {
   render() {
     return (
       <div>
-        <div>
-          <Well>
+        <hr/>
+        <div className={css(styles.messagesContainer)}>
+          <Well styles={[styles.messagesWell]}>
             <p>Hello</p>
             <ol>
-              <li>one</li>
-              <li>two</li>
-              <li>three</li>
+              {[...Array(50).keys()].map((i) => <li>{i}</li>)}
             </ol>
           </Well>
+          <div></div>
+          <Textarea />
         </div>
       </div>
     );
@@ -36,7 +38,14 @@ class ChatWindow extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  messagesContainer: {
+    padding: 4,
+  },
+  messagesWell: {
+    minHeight: 130,
+    maxHeight: 130,
+    overflow: 'scroll',
+  },
 });
 
 export default ChatWindow;
