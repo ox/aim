@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
-const Button = ({type, styles = []}) => {
+const Button = (props) => {
+  const {type, styles = [], children} = props;
   let finalStyles = styles;
 
   switch (type) {
@@ -10,7 +11,7 @@ const Button = ({type, styles = []}) => {
       break;
   }
 
-  return <button className={css(style.button, ...finalStyles)}/>;
+  return <button className={css(style.button, ...finalStyles)} {...props}>{children}</button>;
 };
 
 const style = StyleSheet.create({

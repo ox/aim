@@ -10,6 +10,11 @@ body {
   background-color: #DCD9D3;
 }
 
+input, input:active, input:focus,
+button, button:active, button:focus {
+  outline: 0px solid transparent;
+}
+
 .window {
   min-width: 144px;
   min-height: 320px;

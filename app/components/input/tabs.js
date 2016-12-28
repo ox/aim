@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
+import Well from '../well';
 
 export class Tabs extends Component {
   constructor(props) {
@@ -9,7 +10,6 @@ export class Tabs extends Component {
     };
 
     this.setVisibleTabIdx = this.setVisibleTabIdx.bind(this);
-    this.render = this.render.bind(this);
   }
 
   setVisibleTabIdx(idx) {
@@ -33,12 +33,11 @@ export const Tab = ({title, children, visible = false}) => {
     <div>
       <a className={css(styles.tab)}>{title}</a>
       <div className={css(styles.tabFrame)}>
-        <div className={css(styles.tabContent)}>
-          {visible ? (<div>
+        <Well styles={[styles.tabContent]}>
+          {visible && (<div>
               {children}
-            </div>)
-            : null}
-        </div>
+            </div>)}
+        </Well>
       </div>
     </div>
   );
@@ -60,7 +59,6 @@ const styles = StyleSheet.create({
     '-webkit-user-select': 'none',
   },
   tabFrame: {
-    padding: 3,
     borderLeft: '1px solid #fff',
     borderTop: '1px solid #fff',
     borderRight: '1px solid #000',
@@ -69,13 +67,6 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   tabContent: {
-    padding: 2,
-    backgroundColor: '#fff',
-    borderTop: '1px solid #929292',
-    borderLeft: '1px solid #929292',
-    borderRight: '1px solid #DCD9D3',
-    borderBottom: '1px solid #DCD9D3',
-    boxShadow: 'inset 1px 1px #000, 1px 0 #fff, 0 1px #fff, 1px 1px #fff',
     minHeight: 150,
   },
 });
