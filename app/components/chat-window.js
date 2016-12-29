@@ -5,6 +5,7 @@ import MenuBar from './menu-bar';
 import {DropDown, DropDownItem} from './dropdown';
 import Well from './well';
 import Textarea from './textarea';
+import {Group, GroupDivider} from './input-group';
 
 const ChatLine = ({id, from, message, color}) => {
   return (
@@ -46,7 +47,18 @@ class ChatWindow extends Component {
           <Well styles={[styles.messagesWell]}>
             {this.state.messages.map(ChatLine)}
           </Well>
-          <div></div>
+            <Group>
+              <GroupDivider>
+                <button>foo</button>
+              </GroupDivider>
+              <GroupDivider>
+                <button>foo</button>
+                <button>foo</button>
+              </GroupDivider>
+              <GroupDivider>
+                <button>foo</button>
+              </GroupDivider>
+            </Group>
           <Textarea />
         </div>
       </div>
