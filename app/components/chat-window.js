@@ -3,6 +3,7 @@ import {css, StyleSheet} from 'aphrodite';
 
 import MenuBar from './menu-bar';
 import {DropDown, DropDownItem} from './dropdown';
+import Button from './button';
 import Well from './well';
 import Textarea from './textarea';
 import {Group, GroupDivider} from './input-group';
@@ -60,6 +61,19 @@ class ChatWindow extends Component {
               </GroupDivider>
             </Group>
           <Textarea />
+          <Group>
+            <GroupDivider styles={[styles.left]}>
+              <Button type="flat" styles={[styles.button, styles.warnButton]} />
+              <Button type="flat" styles={[styles.button, styles.blockButton]} />
+            </GroupDivider>
+            <GroupDivider>
+              <Button type="flat" styles={[styles.button, styles.talkButton]} />
+              <Button type="flat" styles={[styles.button, styles.infoButton]} />
+            </GroupDivider>
+            <GroupDivider styles={[styles.right]}>
+              <Button type="flat" styles={[styles.button, styles.sendButton]} />
+            </GroupDivider>
+          </Group>
         </div>
       </div>
     );
@@ -83,6 +97,31 @@ const styles = StyleSheet.create({
     fontFamily: 'Times New Roman, serif',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  left: {
+    float: 'left',
+  },
+  right: {
+    float: 'right',
+  },
+  button: {
+    width: 36,
+    height: 36,
+  },
+  warnButton: {
+    backgroundImage: 'url(public/img/warn.png)',
+  },
+  blockButton: {
+    backgroundImage: 'url(public/img/block.png)',
+  },
+  talkButton: {
+    backgroundImage: 'url(public/img/talk.png)',
+  },
+  infoButton: {
+    backgroundImage: 'url(public/img/info.png)',
+  },
+  sendButton: {
+    backgroundImage: 'url(public/img/send.png)',
   },
 });
 

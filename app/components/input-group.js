@@ -11,14 +11,15 @@ export const Group = ({children}) => {
   );
 };
 
-export const GroupDivider = ({children}) => {
+export const GroupDivider = (props) => {
   return (
-    <div className={css(styles.groupDivider)}>{children}</div>
+    <div className={css(styles.groupDivider, ...(props.styles || []))}>{props.children}</div>
   );
 };
 
 const styles = StyleSheet.create({
   group: {
+    position: 'relative',
     marginTop: 8,
     marginLeft: 3,
     marginRight: 3,
