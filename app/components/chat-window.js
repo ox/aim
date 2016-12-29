@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
 import MenuBar from './menu-bar';
-import {DropDown, DropDownItem} from './input/dropdown';
+import {DropDown, DropDownItem} from './dropdown';
 import Well from './well';
-import Textarea from './input/textarea';
+import Textarea from './textarea';
 
 class ChatWindow extends Component {
   constructor(props) {

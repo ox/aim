@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
-import Well from '../well';
+import Well from './well';
 
 const Textarea = (props) => {
   return (

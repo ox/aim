@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
 
-import Text from './input/text';
-import Button from './input/button';
+import Text from './text';
+import Button from './button';
 
 class SignOn extends Component {
   render() {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {css, StyleSheet} from 'aphrodite';
-import {Tabs, Tab} from './input/tabs';
-import {List, Item} from './input/collapsable-list';
+import {Tabs, Tab} from './tabs';
+import {List, Item} from './collapsable-list';
 
 class BuddyList extends Component {
   constructor(props) {
