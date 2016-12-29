@@ -19,10 +19,22 @@ class ChatWindow extends Component {
     super(props);
     this.state = {
       messages: [
-        {id: 1, from: 'artem', to: 'cole', color: 'red', message: 'hey'},
-        {id: 2, from: 'cole', to: 'artem', color: 'blue', message: 'sup dag'},
-        {id: 3, from: 'artem', to: 'cole', color: 'red', message: 'Not much, how about you?'},
-        {id: 4, from: 'artem', to: 'cole', color: 'red', message: 'yooooo'},
+        {from: 'artem', color: 'red', message: 'hey'},
+        {from: 'cole', color: 'blue', message: 'sup dag'},
+        {from: 'artem', color: 'red', message: 'Not much, how about you?'},
+        {from: 'artem', color: 'red', message: 'yooooo'},
+        {from: 'artem', color: 'red', message: 'hey'},
+        {from: 'cole', color: 'blue', message: 'sup dag'},
+        {from: 'artem', color: 'red', message: 'Not much, how about you?'},
+        {from: 'artem', color: 'red', message: 'yooooo'},
+        {from: 'artem', color: 'red', message: 'hey'},
+        {from: 'cole', color: 'blue', message: 'sup dag'},
+        {from: 'artem', color: 'red', message: 'Not much, how about you?'},
+        {from: 'artem', color: 'red', message: 'yooooo'},
+        {from: 'artem', color: 'red', message: 'hey'},
+        {from: 'cole', color: 'blue', message: 'sup dag'},
+        {from: 'artem', color: 'red', message: 'Not much, how about you?'},
+        {from: 'artem', color: 'red', message: 'yooooo'},
       ],
     };
   }
