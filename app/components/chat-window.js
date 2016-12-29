@@ -6,15 +6,23 @@ import {DropDown, DropDownItem} from './dropdown';
 import Well from './well';
 import Textarea from './textarea';
 
+const ChatLine = ({id, from, message, color}) => {
+  return (
+    <p className={css(styles.chatLine)}>
+      <span style={{color}} className={css(styles.chatSender)}>{from}</span>: {message}
+    </p>
+  );
+};
+
 class ChatWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [
-        {id: 1, from: 'artem', to: 'cole', message: 'hey'},
-        {id: 2, from: 'cole', to: 'artem', message: 'sup dag'},
-        {id: 3, from: 'artem', to: 'cole', message: 'nm'},
-        {id: 4, from: 'artem', to: 'cole', message: 'u?'},
+        {id: 1, from: 'artem', to: 'cole', color: 'red', message: 'hey'},
+        {id: 2, from: 'cole', to: 'artem', color: 'blue', message: 'sup dag'},
+        {id: 3, from: 'artem', to: 'cole', color: 'red', message: 'Not much, how about you?'},
+        {id: 4, from: 'artem', to: 'cole', color: 'red', message: 'yooooo'},
       ],
     };
   }
@@ -24,10 +32,7 @@ class ChatWindow extends Component {
         <hr/>
         <div className={css(styles.messagesContainer)}>
           <Well styles={[styles.messagesWell]}>
-            <p>Hello</p>
-            <ol>
-              {[...Array(50).keys()].map((i) => <li>{i}</li>)}
-            </ol>
+            {this.state.messages.map(ChatLine)}
           </Well>
           <div></div>
           <Textarea />
@@ -45,6 +50,15 @@ const styles = StyleSheet.create({
     minHeight: 130,
     maxHeight: 130,
     overflow: 'scroll',
+  },
+  chatLine: {
+    fontFamily: 'Times New Roman, serif',
+    fontSize: 16,
+  },
+  chatSender: {
+    fontFamily: 'Times New Roman, serif',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
