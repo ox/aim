@@ -2,9 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 
-require('electron-reload')(__dirname+'/public', {
-  electron: require('electron-prebuilt'),
-});
+require('electron-reload')(__dirname+'/public');
 
 let win;
 

@@ -8,7 +8,7 @@ import ChatWindow from './components/chat-window';
 class App extends Component {
   render() {
     return <div>
-      <ChatWindow />
+      <SignOn />
     </div>;
   }
 }
