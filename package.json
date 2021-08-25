@@ -1,30 +1,24 @@
 {
-  "name": "slack-aim",
+  "name": "aim",
+  "author": "Artem",
+  "description": "Artem's Instant Messenger, a Slack client dunked in nostalgia",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "dist/main.dist.js",
+  "license": "MIT",
   "scripts": {
-    "start": "electron .",
-    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
-  },
-  "dependencies": {
-    "aphrodite": "^1.2.5",
-    "babel-eslint": "^7.2.3",
-    "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.5.0",
-    "devtron": "^1.4.0",
-    "electron": "^1.7.9",
-    "electron-reload": "^1.2.2",
-    "eslint": "^4.11.0",
-    "eslint-plugin-react": "^7.4.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
-    "watchify": "^3.9.0"
+    "build:main": "esbuild ./main.js --platform=node --format=cjs --outfile=dist/main.dist.js",
+    "build:app": "esbuild --bundle ./app.jsx --external:fs --external:path --external:electron --format=cjs --outfile=./dist/app.dist.js",
+    "build": "yarn build:main && yarn build:app",
+    "prestart": "yarn build",
+    "start": "electron ."
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
-    "redux-devtools": "^3.3.1"
+    "electron": "^13.1.6",
+    "esbuild": "0.x"
+  },
+  "dependencies": {
+    "aphrodite": "^2.4.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }

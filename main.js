@@ -1,43 +1,63 @@
-const {app, BrowserWindow} = require('electron');
-const path = require('path');
-const url = require('url');
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { is } from 'electron-util'
+import path from 'path'
+import { format } from 'url'
 
-require('electron-reload')(__dirname+'/public');
+let win = null
 
-let win;
-
-function createWindow() {
+async function createWindow() {
   win = new BrowserWindow({
-    width: 360,
-    height: 330,
+    width: 360 + 500,
+    height: 630,
     minWidth: 144,
     minHeight: 300,
     frame: false,
-  });
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  })
 
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true,
-  }));
+  win.loadURL(
+    format({
+      pathname: path.join(__dirname, '..', 'index.html'),
+      protocol: 'file',
+      slashes: true,
+    }),
+  )
 
-  win.webContents.openDevTools()
+  win.webContents.openDevTools({ mode: 'right' });
 
   win.on('closed', () => {
-    win = null;
-  });
+    win = null
+  })
+
+  win.webContents.on('devtools-opened', () => {
+    win.focus()
+  })
+
+  win.on('ready-to-show', () => {
+    win.show()
+    win.focus()
+  })
 }
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+  if (!is.macos) {
+    app.quit()
   }
-});
+})
 
 app.on('activate', () => {
-  if (win === null) {
-    createWindow();
+  if (win === null && app.isReady()) {
+    createWindow()
   }
-});
+})
+
+const ipc = require('electron').ipcMain;
+ipc.on('synMessage', (event, args) => {
+ console.log(args);
+ event.returnValue = 'Main said I received your Sync message';
+})
