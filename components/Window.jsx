@@ -3,14 +3,16 @@ const electron = require("electron");
 const {ipcRenderer} = electron;
 
 const Window = ({ title, children }) => {
-  ipcRenderer.send('bar', 123);
+  const closeWindow = () => {
+    ipcRenderer.send('close-window');
+  }
 
   return (
     <div class="window">
       <header class="window-header">
         <img class="window-header-icon" src="close.png" />
         <div class="window-header-title">{title}</div>
-        <button id="closeBtn" class="window-header-button window-header-close" />
+        <button class="window-header-button window-header-close" onClick={closeWindow} />
         <button class="window-header-button window-header-maximize" />
         <button class="window-header-button window-header-minimize" />
       </header>

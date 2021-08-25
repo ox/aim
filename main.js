@@ -57,7 +57,7 @@ app.on('activate', () => {
 })
 
 const ipc = require('electron').ipcMain;
-ipc.on('synMessage', (event, args) => {
+ipc.on('close-window', (event, args) => {
  console.log(args);
- event.returnValue = 'Main said I received your Sync message';
+ app.quit();
 })
