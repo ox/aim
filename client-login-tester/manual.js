@@ -3,7 +3,6 @@ const qs = require("qs");
 const FormData = require('form-data');
 const WebSocketClient = require('websocket').client;
 
-const wssSlackServer = "wss://wss-primary.slack.com:443/";
 const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
 
 const args = process.argv.slice(2);
@@ -215,6 +214,10 @@ async function boot(client) {
     process.exit(1);
   }
 
+  return connectToWS(teamData);
+}
+
+async function connectToWS(teamData) {
   const wsClient = new WebSocketClient();
 
   wsClient.on('connectFailed', function(error) {
