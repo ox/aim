@@ -6,7 +6,7 @@
   "main": "dist/main.js",
   "license": "MIT",
   "scripts": {
-    "build:main": "esbuild ./main.js ./manual.js --platform=node --format=cjs --outdir=dist",
+    "build:main": "esbuild ./app/*.js --platform=node --format=cjs --outdir=dist",
     "build:app": "esbuild --bundle ./app.jsx --loader:.png=dataurl --loader:.gif=dataurl --external:fs --external:path --external:electron --format=cjs --outfile=./dist/app.dist.js",
     "build": "yarn build:main && yarn build:app",
     "prestart": "yarn build",
@@ -25,6 +25,8 @@
     "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2",
     "styled-components": "^5.3.1",
     "styled-system": "^5.1.5",
     "websocket": "^1.0.34",

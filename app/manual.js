@@ -151,6 +151,10 @@ export async function login(domain, email, password) {
     res = e.response;
   }
 
+  if (!res) {
+    throw new Error('Could not log in');
+  }
+
   const loginCookies = res.headers["set-cookie"];
   if (!loginCookies.find((setCookie) => setCookie.includes("d="))) {
     console.error('no d cookie returned');
@@ -179,8 +183,8 @@ export async function login(domain, email, password) {
   return boot(client)
 }
 
-async function boot(client) {
-  console.log("boot", user_id, team_id, api_token);
+export async function boot(client) {
+  console.log("boot");
 
   async function getTeamData(versionTS = 1630630047) {
     return await client.call("client.boot", {
@@ -216,7 +220,7 @@ async function boot(client) {
     process.exit(1);
   }
 
-  return teamData;
+  return {user_id, team_id, api_token, client, teamData};
 
   // return connectToWS(teamData);
 }

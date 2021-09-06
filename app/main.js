@@ -4,9 +4,11 @@ import is from 'electron-is';
 import path from 'path';
 import { format } from 'url';
 
-import { login } from "./manual.js";
+import { login, boot } from "./manual";
+import { openDb } from "./db";
 
 let win = null;
+let db = null;
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -48,6 +50,9 @@ app.whenReady().then(() => {
     .then(() => installExtension(REACT_DEVELOPER_TOOLS))
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err))
+    .then(async () => {
+      db = await openDb();
+    })
     .then(createWindow);
 });
 
@@ -71,9 +76,34 @@ ipcMain.on('resize-window', (event, width, height) => {
   browserWindow.setSize(width,height)
 });
 
-ipcMain.on('attempt-login', (event, domain, email, password) => {
+let slackClient = null;
+
+ipcMain.on('attempt-login', async (event, domain, email, password) => {
   login(domain, email, password)
-    .then((teamData) => {
+    .then(async ({ api_token, client, teamData}) => {
+      await db.exec('delete from credentials where domain = :domain and email = :email;', {
+        ':domain': domain,
+        ':email': email,
+      });
+
+      await db.run(`insert into credentials (email, domain, token, cookie) values (:email, :domain, :token, :cookie);`, {
+        ':email': email,
+        ':domain': domain,
+        ':token': api_token,
+        ':cookie': client.authCookies,
+      });
+
+      await db.run(`insert into workspaces (id, name, domain) values (:id, :name, :domain)`, {
+        ':id': teamData.team.id,
+        ':name': teamData.team.name,
+        ':domain': domain,
+      });
+
+      slackClient = client;
+
       event.reply('update-workspace', domain, teamData);
+    })
+    .catch((e) => {
+      event.reply('update-workspace', domain, null);
     })
 });
