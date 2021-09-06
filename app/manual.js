@@ -1,3 +1,5 @@
+// This file handles logging into Slack and maintaining creds
+// it's my great shame.
 import axios from "axios";
 import qs from "qs";
 import FormData from 'form-data';
