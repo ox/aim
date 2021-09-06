@@ -4,7 +4,7 @@ import is from 'electron-is';
 import path from 'path';
 import { format } from 'url';
 
-import { login, boot } from "./manual";
+import { login, boot, SlackAPI } from "./manual";
 import { openDb } from "./db";
 
 let win = null;
@@ -81,8 +81,15 @@ let slackClient = null;
 ipcMain.handle('init-session', async (event) => {
   const credential = await db.get(`select * from credentials where autologin = true limit 1;`);
   console.log('init-session', !!credential);
-  return !!credential;
-})
+
+  const client = new SlackAPI('https://' + credential.domain, credential.cookie, credential.token);
+  const workspaceData = await boot(client);
+
+  return {
+    domain: credential.domain,
+    workspaceData,
+  };
+});
 
 ipcMain.handle('attempt-login', async (event, domain, email, password, autoLogin) => {
   console.log('attempt-login', domain, email, autoLogin);

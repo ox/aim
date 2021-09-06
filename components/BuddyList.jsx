@@ -1,99 +1,73 @@
-import React, {Component} from 'react';
-import {css, StyleSheet} from 'aphrodite/no-important';
+import React, {useEffect} from 'react';
+import styled from "styled-components";
+
+import useWindowStore from "./stores/window";
+import useWorkspaces from "./stores/workspaces"
+
+import Box from "./Box";
+import Image from "./Image";
+
 import {Tabs, Tab} from './tabs';
 import {List, Item} from './collapsable-list';
 
-class BuddyList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      buddies: [
-        {
-          id: 1,
-          username: 'JRuby82',
-          status: 'online',
-        },
-        {
-          id: 2,
-          username: 'cole',
-          status: 'offline',
-        },
-        {
-          id: 3,
-          username: 'abby',
-          status: 'idle',
-        },
-      ],
-    };
-  }
+import bannerSrc from "../public/img/aim-header.png";
+import headerSrc from "../public/img/aim-header-logo.png";
 
-  render() {
-    const buddiesOnline = this.state.buddies.reduce((memo, x) => {
-      return (x.status === 'online' || x.status === 'idle') ? memo + 1 : memo;
-    }, 0);
-    const buddiesOffline = this.state.buddies.length - buddiesOnline;
+const Banner = styled(Box)({
+  height: '20px',
+  backgroundImage: `url(${bannerSrc})`,
+  backgroundSize: 'contain',
+  backgroundRepeat: 'no-repeat',
+});
 
-    return <div>
-      <div className={css(styles.headerBanner)}></div>
-      <div className={css(styles.headerLogo)}></div>
+const Header = styled(Box)({
+  height: '130px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  backgroundImage: `url(${headerSrc})`,
+  backgroundSize: 'contain',
+  backgroundRepeat: 'no-repeat',
+});
+
+const BuddyList = () => {
+  const {setTitle, setWindowSize} = useWindowStore();
+  useEffect(() => {
+    setTitle('Buddies');
+    setWindowSize(208, 434);
+  }, []);
+
+  const {workspaces} = useWorkspaces();
+  const workspaceDomains = Object.keys(workspaces);
+
+  console.log(workspaces);
+
+  return (
+    <Box>
+      <Banner />
+      <Header />
 
       <Tabs>
         <Tab title="Online" >
           <List>
-            <Item
-              title={`Buddies (${buddiesOnline}/${this.state.buddies.length})`}
-              visible={true}
-              highlight={true}
-            >
-              {this.state.buddies.map((buddy) => {
-                return buddy.status !== 'offline' ? <Item
-                  key={buddy.id}
-                  title={buddy.username}
-                  styles={[buddy.status === 'idle' ? styles.idle : styles.active]}
-                /> : null;
-              })}
-            </Item>
-            <Item title="Family (0/0)" />
-            <Item title="Co-Workers (0/0)" />
-            <Item title={`Offline (${buddiesOffline}/${this.state.buddies.length})`}>
-              {this.state.buddies.map((buddy) => {
-                return buddy.status === 'offline' ? <Item
-                  key={buddy.id}
-                  title={buddy.username}
-                  styles={[buddy.status === 'offline' ? styles.idle : styles.active]}
-                /> : null;
-              })}
-            </Item>
+            {workspaceDomains.map((domain) => (
+              <Item title={workspaces[domain].teamData.name} key={domain} highlight visible>
+                <Item title="Groupchats" visible>
+                  {workspaces[domain].teamData.channels.map((channel) => (
+                    <Item title={channel.name} visible></Item>
+                  ))}
+                </Item>
+                <Item title="Buddies" highlight visible>
+                  {workspaces[domain].teamData.ims.map((im) => (
+                    <Item title={im.user} visible></Item>
+                  ))}
+                </Item>
+              </Item>
+            ))}
           </List>
         </Tab>
       </Tabs>
-    </div>;
-  }
+    </Box>
+  );
 }
 
-const styles = StyleSheet.create({
-  headerBanner: {
-    width: '100%',
-    height: 20,
-    backgroundImage: 'url(public/img/aim-header.png)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-  },
-  headerLogo: {
-    width: 120,
-    height: 60,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: 4,
-    backgroundImage: 'url(public/img/aim-header-logo.png)',
-    backgroundSize: 'contain',
-  },
-  active: {
-    color: '#000',
-  },
-  idle: {
-    color: '#929292',
-  },
-});
-
-module.exports = BuddyList;
+export default BuddyList;

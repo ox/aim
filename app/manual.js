@@ -44,7 +44,7 @@ let team_id;
 let api_token;
 export let client;
 
-class SlackAPI {
+export class SlackAPI {
   constructor(baseURL, authCookies, apiToken) {
     this.baseURL = baseURL;
     this.authCookies = authCookies;
