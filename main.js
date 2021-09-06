@@ -8,10 +8,8 @@ let win = null;
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 208,
-    height: 434,
-    minWidth: 144,
-    minHeight: 300,
+    width: 100,
+    height: 100,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
@@ -66,4 +64,7 @@ app.on('activate', () => {
 const ipc = require('electron').ipcMain;
 ipc.on('close-window', () => {
  app.quit();
+});
+ipc.on('resize-window', (event, width, height) => {
+  win.setSize(width, height);
 });

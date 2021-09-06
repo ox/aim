@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
 import Image from "./Image";
 import Text from './Text';
 import Button from './Button';
+import useWindowStore from "./stores/window";
 
 import signOnHeader from "../public/img/sign-on-header.gif";
 
@@ -57,7 +58,14 @@ const SignOnButton = styled(SignOnActionButton)({
   },
 });
 
-const SignIn = () => (
+const SignIn = () => {
+  const {setTitle, setWindowSize} = useWindowStore();
+  useEffect(() => {
+    setTitle('Sign On');
+    setWindowSize(208, 434);
+  }, []);
+
+  return (
   <Box p={5} display='flex' flexDirection='column'>
     <Box m={4} mt={-3}>
       <Image src={signOnHeader} width='100%' />
@@ -109,6 +117,6 @@ const SignIn = () => (
       <p style={{fontSize: '8px', userSelect: 'none'}}>Version: 4.2.0124</p>
     </Box>
   </Box>
-);
+)};
 
 export default SignIn;

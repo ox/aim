@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { space, layout, color } from "styled-system";
 
 import {ipcRenderer} from "electron";
 
 import Box from "./Box";
 import Image from "./Image";
 import Button from "./Button";
+import useWindowStore from "./stores/window";
 
 import closeButton from "../public/img/close.png";
 import minimizeButton from "../public/img/minimize.png";
@@ -41,7 +41,9 @@ const WindowControlButton = styled(Button)({
   height: '16px',
 })
 
-const Window = ({ title, children }) => {
+const Window = ({ children }) => {
+  const {title} = useWindowStore();
+  
   const closeWindow = () => {
     ipcRenderer.send('close-window');
   }
@@ -61,9 +63,5 @@ const Window = ({ title, children }) => {
     </Box>
   );
 }
-
-Window.defaultProps = {
-  title: "thunderfunk88",
-};
 
 module.exports = Window;
