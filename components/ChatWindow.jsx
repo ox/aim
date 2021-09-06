@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {css, StyleSheet} from 'aphrodite';
+import {css, StyleSheet} from 'aphrodite/no-important';
 
 import MenuBar from './menu-bar';
 import {DropDown, DropDownItem} from './dropdown';
@@ -48,18 +48,6 @@ class ChatWindow extends Component {
           <Well styles={[styles.messagesWell]}>
             {this.state.messages.map(ChatLine)}
           </Well>
-            <Group>
-              <GroupDivider>
-                <button>foo</button>
-              </GroupDivider>
-              <GroupDivider>
-                <button>foo</button>
-                <button>foo</button>
-              </GroupDivider>
-              <GroupDivider>
-                <button>foo</button>
-              </GroupDivider>
-            </Group>
           <Textarea />
           <Group>
             <GroupDivider styles={[styles.left]}>

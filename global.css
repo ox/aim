@@ -7,6 +7,7 @@
 }
 
 body {
+  overflow: hidden;
   background-color: #DCD9D3;
 }
 
@@ -15,85 +16,7 @@ button, button:active, button:focus {
   outline: 0px solid transparent;
 }
 
-.window {
-  min-width: 144px;
-  min-height: 300px;
-}
-
-.clear {
-  clear: both;
-}
-
-.window-header {
-  -webkit-app-region: drag;
-  -webkit-user-select: none;
-
-  height: 24px;
-  width: 100%;
-  padding-left: 6px;
-  padding-right: 2px;
-  padding-top: 2px;
-  margin-bottom: 2px;
-
-  color: #fff;
-  background: linear-gradient(to right, #020D7E, #A2CFF8);
-}
-
-.window-header-icon {
-  height: 20px;
-  padding: 2px;
-  padding-left: 0;
-}
-
-.window-header-title {
-  display: inline-block;
-  line-height: 24px;
-  vertical-align: top;
-  font-weight: bold;
-  max-width: 60px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.window-header-button {
-  -webkit-app-region: no-drag;
-  float: right;
-  height: 16px;
-  width: 16px;
-  margin-top: 2px;
-  border-radius: 0;
-  border-top: 1px solid #fff;
-  border-left: 1px solid #fff;
-  border-right: 1px solid gray;
-  border-bottom: 1px solid gray;
-  box-shadow: inset 1px 1px #dfdfdf, 1px 0 #000, 0 1px #000, 1px 1px #000;
-  margin-right: 4px;
-  background-color: silver;
-
-  background-repeat: no-repeat;
-  background-position: center;
-  outline: 0px solid transparent;
-}
-
-.window-header-button:active {
-  border-top: 1px solid #000;
-  border-left: 1px solid #000;
-  border-right: 1px solid #dfdfdf;
-  border-bottom: 1px solid #dfdfdf;
-  box-shadow: 1px 0 #fff, 0 1px #fff, 1px 1px #fff;
-  outline: 0px solid transparent;
-}
-
-.window-header-minimize {
-  margin-right: 1px;
-  background-image: url(public/img/minimize.png);
-}
-
-.window-header-maximize {
-  background-image: url(public/img/maximize.png);
-}
-
-.window-header-close {
-  background-image: url(public/img/close.png);
+label, p {
+  font-size: 12px;
+  line-height: 16px;
 }

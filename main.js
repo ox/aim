@@ -1,14 +1,15 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
-import { is } from 'electron-util'
-import path from 'path'
-import { format } from 'url'
+import { app, BrowserWindow, ipcMain } from 'electron';
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import is from 'electron-is';
+import path from 'path';
+import { format } from 'url';
 
-let win = null
+let win = null;
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 360 + 500,
-    height: 630,
+    width: 208,
+    height: 434,
     minWidth: 144,
     minHeight: 300,
     frame: false,
@@ -26,26 +27,32 @@ async function createWindow() {
     }),
   )
 
-  win.webContents.openDevTools({ mode: 'right' });
+  win.webContents.openDevTools({ mode: 'detach', });
 
   win.on('closed', () => {
-    win = null
+    win = null;
   })
 
   win.webContents.on('devtools-opened', () => {
-    win.focus()
+    win.focus();
   })
 
   win.on('ready-to-show', () => {
-    win.show()
-    win.focus()
+    win.show();
+    win.focus();
   })
 }
 
-app.on('ready', createWindow)
+app.whenReady().then(() => {
+  return installExtension(REDUX_DEVTOOLS)
+    .then(() => installExtension(REACT_DEVELOPER_TOOLS))
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err))
+    .then(createWindow);
+});
 
 app.on('window-all-closed', () => {
-  if (!is.macos) {
+  if (!is.macOS()) {
     app.quit()
   }
 })
@@ -57,7 +64,6 @@ app.on('activate', () => {
 })
 
 const ipc = require('electron').ipcMain;
-ipc.on('close-window', (event, args) => {
- console.log(args);
+ipc.on('close-window', () => {
  app.quit();
-})
+});

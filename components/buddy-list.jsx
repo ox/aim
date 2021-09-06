@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {css, StyleSheet} from 'aphrodite';
+import {css, StyleSheet} from 'aphrodite/no-important';
 import {Tabs, Tab} from './tabs';
 import {List, Item} from './collapsable-list';
 

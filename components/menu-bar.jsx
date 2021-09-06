@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {css, StyleSheet} from 'aphrodite';
+import {css, StyleSheet} from 'aphrodite/no-important';
 
 class MenuBar extends Component {
   render() {

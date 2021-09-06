@@ -9,7 +9,7 @@
 			"detail": "electron .",
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": true,
 			}
 		}
 	]

@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
-import {css, StyleSheet} from 'aphrodite';
+import React from 'react';
+import styled from "styled-components";
+import { layout, space, border, shadow, system } from "styled-system";
 
-const Text = ({type = "text", name, styles = []}) => {
-  return (
-    <input type={type}
-      name={name}
-      className={css(style.input, ...styles)} />
-  );
-};
-
-const style = StyleSheet.create({
-  input: {
+const T = styled.input(
+  space,
+  layout,
+  border,
+  shadow,
+  system({
+    outline: true,
+  }),
+  {
     padding: 2,
     borderTop: '2px solid gray',
     borderLeft: '2px solid gray',
@@ -22,7 +22,9 @@ const style = StyleSheet.create({
     ':active': {
       outline: '0px solid transparent',
     },
-  },
-});
+  }
+)
+
+const Text = (props) => <T type="text" {...props} />;
 
 export default Text;

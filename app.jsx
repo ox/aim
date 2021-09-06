@@ -1,15 +1,21 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
 
-const Window = require("./components/Window");
+import theme from "./theme";
+import Window from "./components/Window";
 
 // import BuddyList from './components/buddy-list';
-// import SignOn from './components/sign-on';
+import SignIn from './components/SignIn';
 // import ChatWindow from './components/chat-window';
 
 const App = () => {
   return (
-    <Window>Hello</Window>
+    <ThemeProvider theme={theme}>
+      <Window>
+        <SignIn />
+      </Window>
+    </ThemeProvider>
   );
 }
 
