@@ -3,12 +3,20 @@ const qs = require("qs");
 const FormData = require('form-data');
 const WebSocketClient = require('websocket').client;
 
-const baseURL = "https://artems-work-space.slack.com/";
 const wssSlackServer = "wss://wss-primary.slack.com:443/";
 const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
+
+const args = process.argv.slice(2);
+if (args.length !== 3) {
+  console.error("Usage: <workspace> <username> <password>");
+  process.exit(1);
+}
+
+const baseURL = args[0];
+
 const loginPayload = {
-  email: "artem.titoulenko@gmail.com",
-  password: "82RfZZ(cB}U6;3yYwNH;",
+  email: args[1],
+  password: args[1],
   remember: "on",
   signin: 1,
   redir: "",

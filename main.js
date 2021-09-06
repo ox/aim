@@ -66,5 +66,6 @@ ipc.on('close-window', () => {
  app.quit();
 });
 ipc.on('resize-window', (event, width, height) => {
-  win.setSize(width, height);
+  let browserWindow = BrowserWindow.fromWebContents(event.sender)
+  browserWindow.setSize(width,height)
 });
