@@ -94,12 +94,12 @@ const SignIn = () => {
           <Box mx={2}>
             <Box mt={6}>
               <div><label>Workspace URL</label></div>
-              <Text name="workspaceUrl" width='100%' disabled={loading[attemptingDomain]}/>
+              <Text name="workspaceUrl" placeholder="your-workspace.slack.com" width='100%' disabled={loading[attemptingDomain]}/>
             </Box>
 
             <Box mt={6}>
               <Image src="public/img/screen-name.png" width='103px' pt={3} pb={2} display='block'/>
-              <Text name="screenName" width='100%' disabled={loading[attemptingDomain]}/>
+              <Text name="screenName" placeholder="your-email@domain.com" width='100%' disabled={loading[attemptingDomain]}/>
               <a href="https://slack.com" target="_blank">Get a Screen Name</a>
             </Box>
 
