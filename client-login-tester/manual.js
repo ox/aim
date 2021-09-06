@@ -16,7 +16,7 @@ const baseURL = args[0];
 
 const loginPayload = {
   email: args[1],
-  password: args[1],
+  password: args[2],
   remember: "on",
   signin: 1,
   redir: "",
@@ -144,6 +144,7 @@ async function login() {
   } catch (e) {
     // 302 is considered a failure, smh. just continue
     if (e.response.status !== 302) {
+      console.log('unexpected', e.response.status);
       throw e;
     }
     res = e.response;
@@ -174,29 +175,45 @@ async function login() {
 
   client = new SlackAPI(baseURL, authCookies, api_token);
 
-  const wsdata = await client.call("client.getWebSocketURL", {form:{token: api_token, _x_sonic: true}});
-  return boot(client, wsdata)
+  return boot(client)
 }
 
-async function boot(client, wsData) {
+async function boot(client) {
   console.log("boot", user_id, team_id, api_token);
 
-  const teamData = await client.call("client.boot", {
-    qs: {
-      "_x_id": "noversion-1630341789.089",
-      "_x_version_ts": "noversion",
-      "_x_gantry": "true"
-    },
-    form: {
-      only_self_subteams: 1,
-      flannel_api_ver: 4,
-      _x_reason: "deferred-data",
-      include_min_version_bump_check: 1,
-      version_ts: 1630335447,
-      build_version_ts: 1630335447,
-      _x_sonic: true,
-    },
-  });
+  async function getTeamData(versionTS = 1630630047) {
+    return await client.call("client.boot", {
+      qs: {
+        "_x_id": `noversion-${versionTS}.089`,
+        "_x_version_ts": "noversion",
+        "_x_gantry": "true"
+      },
+      form: {
+        only_self_subteams: 1,
+        flannel_api_ver: 4,
+        _x_reason: "deferred-data",
+        include_min_version_bump_check: 1,
+        version_ts: versionTS,
+        build_version_ts: versionTS,
+        _x_sonic: true,
+      },
+    });
+  }
+  
+  // Try to get the team data, if it fails there will be a response with a client_min_version that we
+  // should use when retrying the teamdata request.
+  let attemptNumber = 1;
+  let teamData = await getTeamData();
+  if (!teamData.url && attemptNumber < 2) {
+    attemptNumber++;
+    teamData = await getTeamData(teamData.client_min_version);
+  }
+  
+  if (!teamData.url) {
+    console.log(teamData);
+    console.error('missing teamData.url');
+    process.exit(1);
+  }
 
   const wsClient = new WebSocketClient();
 
