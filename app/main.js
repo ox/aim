@@ -78,19 +78,27 @@ ipcMain.on('resize-window', (event, width, height) => {
 
 let slackClient = null;
 
-ipcMain.on('attempt-login', async (event, domain, email, password) => {
-  login(domain, email, password)
+ipcMain.handle('init-session', async (event) => {
+  const credential = await db.get(`select * from credentials where autologin = true limit 1;`);
+  console.log('init-session', !!credential);
+  return !!credential;
+})
+
+ipcMain.handle('attempt-login', async (event, domain, email, password, autoLogin) => {
+  console.log('attempt-login', domain, email, autoLogin);
+  return login(domain, email, password)
     .then(async ({ api_token, client, teamData}) => {
       await db.exec('delete from credentials where domain = :domain and email = :email;', {
         ':domain': domain,
         ':email': email,
       });
 
-      await db.run(`insert into credentials (email, domain, token, cookie) values (:email, :domain, :token, :cookie);`, {
+      await db.run(`insert into credentials (email, domain, token, cookie, autologin) values (:email, :domain, :token, :cookie, :autologin);`, {
         ':email': email,
         ':domain': domain,
         ':token': api_token,
         ':cookie': client.authCookies,
+        ':autologin': autoLogin || false,
       });
 
       await db.run(`insert into workspaces (id, name, domain) values (:id, :name, :domain)`, {
@@ -101,9 +109,15 @@ ipcMain.on('attempt-login', async (event, domain, email, password) => {
 
       slackClient = client;
 
-      event.reply('update-workspace', domain, teamData);
+      return {
+        domain,
+        workspaceData: teamData,
+      };
+
+      // event.reply('update-workspace', domain, teamData);
     })
     .catch((e) => {
-      event.reply('update-workspace', domain, null);
+      return Promise.resolve({error: 'could not log in'});
+      // event.reply('update-workspace', domain, null);
     })
 });

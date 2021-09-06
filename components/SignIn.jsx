@@ -66,7 +66,7 @@ const SignIn = () => {
     setWindowSize(208, 434);
   }, []);
 
-  const {loading, attemptLogin} = useWorkspacesStore();
+  const {loading, attemptLogin, updateWorkspace} = useWorkspacesStore();
   const [attemptingDomain, setAttemptingDomain] = useState();
 
   const handleSubmit = useCallback((e) => {
@@ -76,9 +76,20 @@ const SignIn = () => {
     const domain = workspaceUrl.host;
     const screenName = e.target.elements.screenName.value;
     const password = e.target.elements.password.value;
+    const autoLogin = e.target.elements.autoLogin.value === "on";
 
     setAttemptingDomain(domain);
-    attemptLogin(domain, screenName, password);
+    attemptLogin(domain, screenName, password, autoLogin)
+      .then((res) => {
+        console.log(res);
+        if (res.error) {
+          console.error(res.error);
+          return;
+        }
+        const {domain, workspaceData} = res;
+        updateWorkspace(domain, workspaceData);
+        location.hash = "/buddies";
+      });
   });
 
   return (
@@ -94,28 +105,28 @@ const SignIn = () => {
           <Box mx={2}>
             <Box mt={6}>
               <div><label>Workspace URL</label></div>
-              <Text name="workspaceUrl" placeholder="your-workspace.slack.com" width='100%' disabled={loading[attemptingDomain]}/>
+              <Text name="workspaceUrl" placeholder="your-workspace.slack.com" width='100%' disabled={loading[attemptingDomain]} value="artems-work-space.slack.com" />
             </Box>
 
             <Box mt={6}>
               <Image src="public/img/screen-name.png" width='103px' pt={3} pb={2} display='block'/>
-              <Text name="screenName" placeholder="your-email@domain.com" width='100%' disabled={loading[attemptingDomain]}/>
+              <Text name="screenName" placeholder="your-email@domain.com" width='100%' disabled={loading[attemptingDomain]} value="artem.titoulenko@gmail.com" />
               <a href="https://slack.com" target="_blank">Get a Screen Name</a>
             </Box>
 
             <Box mt={6}>
               <div><label htmlFor="password">Password</label></div>
-              <Text type="password" name="password" width='100%' disabled={loading[attemptingDomain]}/>
+              <Text type="password" name="password" width='100%' disabled={loading[attemptingDomain]} value="htj5QMG*tkr-ypz_yve"/>
               <a href="#">Forgot Password?</a>
             </Box>
 
             <Box mt={6} display="flex" justifyContent="space-between">
               <Box display="flex" alignItems="center">
-                <input type="checkbox" name="save-password" disabled />
+                <input type="checkbox" name="savePassword" disabled />
                 <label htmlFor="">Save password</label>
               </Box>
               <Box mr={7} display="flex" alignItems="center">
-                <input type="checkbox" name="auto-login" disabled />
+                <input type="checkbox" name="autoLogin" disabled={loading[attemptingDomain]} />
                 <label htmlFor="">Auto-login</label>
               </Box>
             </Box>

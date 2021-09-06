@@ -27,7 +27,8 @@ export async function openDb () {
         email TEXT,
         domain TEXT,
         token TEXT,
-        cookie TEXT
+        cookie TEXT,
+        autologin BOOL default false
       );
     `,
     workspaces: `

@@ -10,9 +10,9 @@ const useStore = create(set => ({
       loading: [],
     }));
   },
-  attemptLogin: (domain, email, password) => {
-    ipcRenderer.send('attempt-login', domain, email, password);
-    return set(state => ({loading: {[domain]: true}}));
+  attemptLogin: (domain, email, password, autoLogin) => {
+    set(state => ({loading: {[domain]: true}}));
+    return ipcRenderer.invoke('attempt-login', domain, email, password, autoLogin);
   },
 }));
 
