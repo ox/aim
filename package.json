@@ -3,10 +3,10 @@
   "author": "Artem",
   "description": "Artem's Instant Messenger, a Slack client dunked in nostalgia",
   "version": "1.0.0",
-  "main": "dist/main.dist.js",
+  "main": "dist/main.js",
   "license": "MIT",
   "scripts": {
-    "build:main": "esbuild ./main.js --platform=node --format=cjs --outfile=dist/main.dist.js",
+    "build:main": "esbuild ./main.js ./manual.js --platform=node --format=cjs --outdir=dist",
     "build:app": "esbuild --bundle ./app.jsx --loader:.png=dataurl --loader:.gif=dataurl --external:fs --external:path --external:electron --format=cjs --outfile=./dist/app.dist.js",
     "build": "yarn build:main && yarn build:app",
     "prestart": "yarn build",

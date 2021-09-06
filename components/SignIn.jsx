@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -6,6 +6,7 @@ import Image from "./Image";
 import Text from './Text';
 import Button from './Button';
 import useWindowStore from "./stores/window";
+import useWorkspacesStore from "./stores/workspaces";
 
 import signOnHeader from "../public/img/sign-on-header.gif";
 
@@ -65,58 +66,76 @@ const SignIn = () => {
     setWindowSize(208, 434);
   }, []);
 
+  const {loading, attemptLogin} = useWorkspacesStore();
+  const [attemptingDomain, setAttemptingDomain] = useState();
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+
+    const workspaceUrl = new URL('https://' + e.target.elements.workspaceUrl.value);
+    const domain = workspaceUrl.host;
+    const screenName = e.target.elements.screenName.value;
+    const password = e.target.elements.password.value;
+
+    setAttemptingDomain(domain);
+    attemptLogin(domain, screenName, password);
+  });
+
   return (
-  <Box p={5} display='flex' flexDirection='column'>
-    <Box m={4} mt={-3}>
-      <Image src={signOnHeader} width='100%' />
-    </Box>
-
-    <hr/>
-
-    <Box mx={6}>
-      <Box mx={2}>
-        <Box mt={6}>
-          <div><label>Workspace URL</label></div>
-          <Text name="workspace_url" width='100%' />
-        </Box>
-
-        <Box mt={6}>
-          <Image src="public/img/screen-name.png" width='103px' pt={3} pb={2} display='block'/>
-          <Text name="screen-name" width='100%' />
-          <a href="https://slack.com" target="_blank">Get a Screen Name</a>
-        </Box>
-
-        <Box mt={6}>
-          <div><label htmlFor="password">Password</label></div>
-          <Text type="password" name="password" width='100%' />
-          <a href="#">Forgot Password?</a>
-        </Box>
-
-        <Box mt={6} display="flex" justifyContent="space-between">
-          <Box display="flex" alignItems="center">
-            <input type="checkbox" name="save-password" disabled />
-            <label htmlFor="">Save password</label>
-          </Box>
-          <Box mr={7} display="flex" alignItems="center">
-            <input type="checkbox" name="auto-login" disabled />
-            <label htmlFor="">Auto-login</label>
-          </Box>
-        </Box>
+    <Box p={5} display='flex' flexDirection='column'>
+      <Box m={4} mt={-3}>
+        <Image src={signOnHeader} width='100%' />
       </Box>
 
-      <Box mt={6} display="flex">
-        <HelpButton variant="flat" />
-        <Box flex="1">
-          <SetupButton variant="flat" />
+      <hr/>
+
+      <form onSubmit={handleSubmit}>
+        <Box mx={6}>
+          <Box mx={2}>
+            <Box mt={6}>
+              <div><label>Workspace URL</label></div>
+              <Text name="workspaceUrl" width='100%' disabled={loading[attemptingDomain]}/>
+            </Box>
+
+            <Box mt={6}>
+              <Image src="public/img/screen-name.png" width='103px' pt={3} pb={2} display='block'/>
+              <Text name="screenName" width='100%' disabled={loading[attemptingDomain]}/>
+              <a href="https://slack.com" target="_blank">Get a Screen Name</a>
+            </Box>
+
+            <Box mt={6}>
+              <div><label htmlFor="password">Password</label></div>
+              <Text type="password" name="password" width='100%' disabled={loading[attemptingDomain]}/>
+              <a href="#">Forgot Password?</a>
+            </Box>
+
+            <Box mt={6} display="flex" justifyContent="space-between">
+              <Box display="flex" alignItems="center">
+                <input type="checkbox" name="save-password" disabled />
+                <label htmlFor="">Save password</label>
+              </Box>
+              <Box mr={7} display="flex" alignItems="center">
+                <input type="checkbox" name="auto-login" disabled />
+                <label htmlFor="">Auto-login</label>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box mt={6} display="flex">
+            <HelpButton variant="flat" />
+            <Box flex="1">
+              <SetupButton variant="flat" />
+            </Box>
+            <SignOnButton variant="flat" type="submit" />
+          </Box>
         </Box>
-        <SignOnButton variant="flat" />
+      </form>
+
+      <Box justifySelf="flex-end" textAlign="center" pt={16}>
+        <p style={{fontSize: '8px', userSelect: 'none'}}>Version: 4.2.0124</p>
       </Box>
     </Box>
-
-    <Box justifySelf="flex-end" textAlign="center" pt={16}>
-      <p style={{fontSize: '8px', userSelect: 'none'}}>Version: 4.2.0124</p>
-    </Box>
-  </Box>
-)};
+  );
+};
 
 export default SignIn;

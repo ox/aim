@@ -1,21 +1,21 @@
-const axios = require("axios");
-const qs = require("qs");
-const FormData = require('form-data');
-const WebSocketClient = require('websocket').client;
+import axios from "axios";
+import qs from "qs";
+import FormData from 'form-data';
+import WebSocketClient from 'websocket';
 
 const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36";
 
-const args = process.argv.slice(2);
-if (args.length !== 3) {
-  console.error("Usage: <workspace> <username> <password>");
-  process.exit(1);
-}
+// const args = process.argv.slice(2);
+// if (args.length !== 3) {
+//   console.error("Usage: <workspace> <username> <password>");
+//   process.exit(1);
+// }
 
-const baseURL = args[0];
+// const baseURL = args[0];
+
+let baseURL = '';
 
 const loginPayload = {
-  email: args[1],
-  password: args[2],
   remember: "on",
   signin: 1,
   redir: "",
@@ -40,7 +40,7 @@ let authCookies = "";
 let user_id;
 let team_id;
 let api_token;
-let client;
+export let client;
 
 class SlackAPI {
   constructor(baseURL, authCookies, apiToken) {
@@ -113,7 +113,9 @@ const cookieArrToString = (cookies) => {
   .join("; ")
 }
 
-async function login() {
+export async function login(domain, email, password) {
+  baseURL = 'https://' + domain + '/';
+
   const initialRes = await axios.get(baseURL, {
     headers: {
       ...accept,
@@ -125,7 +127,7 @@ async function login() {
   const initialCookies = cookieArrToString(initialRes.headers["set-cookie"]);
   const crumbEncoded = initialRes.data.match(/&quot;(s-.*?)&quot;/)[1];
   const crumb = decodeURIComponent(JSON.parse(`"${crumbEncoded}"`));
-  const data = qs.stringify({ ...loginPayload, crumb });
+  const data = qs.stringify({ ...loginPayload, email, password, crumb });
 
   let res;
   try {
@@ -214,11 +216,13 @@ async function boot(client) {
     process.exit(1);
   }
 
-  return connectToWS(teamData);
+  return teamData;
+
+  // return connectToWS(teamData);
 }
 
 async function connectToWS(teamData) {
-  const wsClient = new WebSocketClient();
+  const wsClient = new WebSocketClient.WebSocketClient();
 
   wsClient.on('connectFailed', function(error) {
     console.log('Connect Error: ' + error.toString());

@@ -4,6 +4,8 @@ import is from 'electron-is';
 import path from 'path';
 import { format } from 'url';
 
+import { login } from "./manual.js";
+
 let win = null;
 
 async function createWindow() {
@@ -59,13 +61,19 @@ app.on('activate', () => {
   if (win === null && app.isReady()) {
     createWindow()
   }
-})
+});
 
-const ipc = require('electron').ipcMain;
-ipc.on('close-window', () => {
+ipcMain.on('close-window', () => {
  app.quit();
 });
-ipc.on('resize-window', (event, width, height) => {
+ipcMain.on('resize-window', (event, width, height) => {
   let browserWindow = BrowserWindow.fromWebContents(event.sender)
   browserWindow.setSize(width,height)
+});
+
+ipcMain.on('attempt-login', (event, domain, email, password) => {
+  login(domain, email, password)
+    .then((teamData) => {
+      event.reply('update-workspace', domain, teamData);
+    })
 });
